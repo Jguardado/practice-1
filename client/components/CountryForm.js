@@ -1,4 +1,4 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { addACountryThunk } from '../reducers/countriesReducer'
 import Button from '@material-ui/core/Button';
@@ -16,10 +16,7 @@ const styles = theme => ({
   },
 });
 
-
-
-
-class DisconnectedCountryForm extends React.Component {
+class DisconnectedCountryForm extends Component {
   constructor(props){
     super(props)
 

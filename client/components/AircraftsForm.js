@@ -1,4 +1,4 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { addAAircraftThunk } from '../reducers/aircraftsReducer'
 import Button from '@material-ui/core/Button';
@@ -16,28 +16,22 @@ const styles = theme => ({
   },
 });
 
-
-
-
-class DisconnectedAircraftForm extends React.Component {
+class DisconnectedAircraftForm extends Component {
   constructor(props){
     super(props)
 
     this.state = {
-      make: '',
-      model: '',
-      year: '',
-      type: '',
-      cost: '',
-      imageUrl: '',
-      description: '',
-      countryId: '',
       editing:false
-
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({
+      ...this.props.activeAircraft
+    })
   }
 
   handleSubmit(e){
@@ -45,15 +39,15 @@ class DisconnectedAircraftForm extends React.Component {
     this.props.ADD_A_AIRCRAFT_DISPATCH(this.state)
 
     this.setState({
-          make: '',
-          model: '',
-          year: '',
-          type: '',
-          cost: '',
-          imageUrl: '',
-          description: '',
-          countryId: ''
-        })
+      make: '',
+      model: '',
+      year: '',
+      type: '',
+      cost: '',
+      imageUrl: '',
+      description: '',
+      countryId: ''
+    })
   }
 
   handleChange(e){
@@ -63,7 +57,7 @@ class DisconnectedAircraftForm extends React.Component {
   }
 
   render () {
-
+    console.log(this.state)
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='name'> Make:
@@ -74,9 +68,7 @@ class DisconnectedAircraftForm extends React.Component {
             onChange={this.handleChange}
           />
         </label>
-
         <br />
-
         <label htmlFor='model'>Model:
           <Input
             name="model"
@@ -85,9 +77,7 @@ class DisconnectedAircraftForm extends React.Component {
             onChange={this.handleChange}
           />
         </label>
-
         <br />
-
         <label htmlFor='year'>Year:
           <Input
             name="year"
@@ -96,10 +86,7 @@ class DisconnectedAircraftForm extends React.Component {
             onChange={this.handleChange}
           />
         </label>
-
-
         <br />
-
         <label htmlFor='type'> Type:
           <select name="type" onChange={this.handleChange}>
               <option value="none">Select</option>
@@ -110,9 +97,7 @@ class DisconnectedAircraftForm extends React.Component {
               <option value="Reconoissance">Reconoissance</option>
             </select>
         </label>
-
-          <br/>
-
+        <br/>
         <label htmlFor='cost'>Cost:
             <Input
               name="cost"
@@ -120,66 +105,58 @@ class DisconnectedAircraftForm extends React.Component {
               value={this.state.cost}
               onChange={this.handleChange}
             />
-          </label>
-
-          <br/>
-
-          <label htmlFor='image'>Image Url:
-              <Input
-                name="imageUrl"
-                type="text"
-                value={this.state.imageUrl}
-                onChange={this.handleChange}
-              />
-            </label>
-
-            <br/>
-
-            <label htmlFor='description'>Description:
-                <Input
-                  name="description"
-                  type="text"
-                  value={this.state.description}
-                  onChange={this.handleChange}
-                />
-            </label>
-
-            <br/>
-
-              <label htmlFor='countryId'> Country:
-                <select name="countryId" onChange={this.handleChange}>
-                    <option value="none">Select</option>
-                    <option value="1">United States of America</option>
-                    <option value="2">Italy</option>
-                    <option value="3">Japan</option>
-                    <option value="4">France</option>
-                    <option value="5">Spain</option>
-                    <option value="6">Germany</option>
-                    <option value="7">Argentina</option>
-                    <option value="8">Canada</option>
-                    <option value="9">Russia</option>
-                    <option value="10">Korea</option>
-                  </select>
-              </label>
-
-              <br />
-
+        </label>
+        <br/>
+        <label htmlFor='image'>Image Url:
+          <Input
+            name="imageUrl"
+            type="text"
+            value={this.state.imageUrl}
+            onChange={this.handleChange}
+          />
+        </label>
+        <br/>
+        <label htmlFor='description'>Description:
+            <Input
+              name="description"
+              type="text"
+              value={this.state.description}
+              onChange={this.handleChange}
+            />
+        </label>
+        <br/>
+        <label htmlFor='countryId'> Country:
+          <select name="countryId" onChange={this.handleChange}>
+              <option value="none">Select</option>
+              <option value="1">United States of America</option>
+              <option value="2">Italy</option>
+              <option value="3">Japan</option>
+              <option value="4">France</option>
+              <option value="5">Spain</option>
+              <option value="6">Germany</option>
+              <option value="7">Argentina</option>
+              <option value="8">Canada</option>
+              <option value="9">Russia</option>
+              <option value="10">Korea</option>
+            </select>
+        </label>
+        <br />
         <Button type="submit" variant="contained" color="primary">
           Submit
         </Button>
-
       </form>
     )
   }
 }
 
-
+const mapStateToProps = (state) => ({
+  activeAircraft: state.aircrafts.activeAircraft
+})
 
 const mapDispatch = dispatch => ({
   ADD_A_AIRCRAFT_DISPATCH: (strings) => dispatch(addAAircraftThunk(strings))
 })
 
-export default withStyles(styles)(DisconnectedAircraftForm);
+const StyledAircraftForm = withStyles(styles)(DisconnectedAircraftForm);
 
-
-export const AircraftsForm = connect(null, mapDispatch)(DisconnectedAircraftForm)
+export const AircraftsForm = connect(mapStateToProps, mapDispatch)(StyledAircraftForm)

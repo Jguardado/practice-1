@@ -7,35 +7,40 @@ const GET_A_AIRCRAFT = 'GET_A_AIRCRAFT'
 const ADD_A_AIRCRAFT = 'ADD_A_AIRCRAFT'
 const UPDATE_A_AIRCRAFT = 'UPDATE_A_AIRCRAFT'
 const REMOVE_A_AIRCRAFT = 'REMOVE_A_AIRCRAFT'
+const SET_ACTIVE_AIRCRAFT = "SET_ACTIVE_AIRCRAFT"
 
 
 // ACTION CREATOR
 export const gotAircraftsActionCreator = (data) => ({
   type: GET_AIRCRAFTS,
   aircrafts:data
-})
+});
 
 export const gotAAircraftActionCreator = data => ({
   type: GET_A_AIRCRAFT,
   aircrafts: data
-})
+});
 
 export const addAAircraftActionCreator = (strings) => ({
   type: ADD_A_AIRCRAFT,
   newAircraft: strings
-})
+});
 
 export const updateAAircraftActionCreator = (id, data) => ({
   type: UPDATE_A_AIRCRAFT,
   id: id,
   data: data
-})
-
+});
 
 export const deleteAAircraftActionCreator = (data) => ({
   type: REMOVE_A_AIRCRAFT,
   id: data.id
-})
+});
+
+export const setActiveAircraft = (payload) => ({
+  type: SET_ACTIVE_AIRCRAFT,
+  payload
+});
 
 // THUNK CREATORS
 export const getAircraftsThunk = () => {
@@ -108,6 +113,11 @@ const initialState = {
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch(action.type){
+    case SET_ACTIVE_AIRCRAFT:
+      return {
+        ...state,
+        activeAircraft: action.payload
+      }
     case GET_AIRCRAFTS:
       return {
         ...state,
